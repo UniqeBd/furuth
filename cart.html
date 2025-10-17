@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">                        <a href="index.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="products.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Products</a>
+                        <a href="cart.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Cart (<span id="cart-count">0</span>)</a>
+                        <a href="orders.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">My Orders</a>
+                        <a href="admin.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Admin</a>ad>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Furuth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Navigation Bar -->
+    <nav class="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold text-primary">Furuth</a>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="products.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Products</a>
+                        <a href="cart.html" class="text-gray-900 dark:text-white hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Cart (<span id="cart-count">0</span>)</a>
+                        <a href="admin.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Admin</a>
+                    </div>
+                </div>
+
+                <!-- Dark Mode Toggle & Currency Toggle -->
+                <div class="flex items-center space-x-2">
+                    <!-- Currency Toggle -->
+                    <button id="currency-toggle" class="p-2 rounded-md text-gray-500 hover:text-primary transition-colors text-sm font-medium">
+                        <span id="currency-text">USD</span>
+                    </button>
+                    
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-md text-gray-500 hover:text-primary transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path class="dark:hidden" fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            <path class="hidden dark:block" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-500 hover:text-primary p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-500 dark:text-gray-300 hover:text-primary">Home</a>
+                <a href="products.html" class="block px-3 py-2 text-gray-500 dark:text-gray-300 hover:text-primary">Products</a>
+                <a href="cart.html" class="block px-3 py-2 text-gray-900 dark:text-white hover:text-primary font-medium">Cart (<span class="cart-count">0</span>)</a>
+                <a href="admin.html" class="block px-3 py-2 text-gray-500 dark:text-gray-300 hover:text-primary">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="bg-white dark:bg-gray-800 shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Shopping Cart</h1>
+        </div>
+    </div>
+
+    <!-- Cart Content -->
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-16">
+            <!-- Cart Items -->
+            <section aria-labelledby="cart-heading" class="lg:col-span-7">
+                <h2 id="cart-heading" class="sr-only">Items in your shopping cart</h2>
+
+                <div id="cart-items" class="space-y-6">
+                    <!-- Cart items will be loaded here -->
+                </div>
+
+                <!-- Empty Cart State -->
+                <div id="empty-cart" class="text-center py-16 hidden">
+                    <div class="text-gray-400 mb-4">
+                        <svg class="w-24 h-24 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13v6a2 2 0 002 2h8a2 2 0 002-2v-6M7 13H5a2 2 0 01-2-2V9a2 2 0 012-2h2m5-4v4m0 0l2-2m-2 2L9 5"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Your cart is empty</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">Add some items to your cart to get started!</p>
+                    <a href="products.html" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-block">
+                        Continue Shopping
+                    </a>
+                </div>
+            </section>
+
+            <!-- Order Summary -->
+            <section aria-labelledby="summary-heading" class="mt-16 bg-gray-50 dark:bg-gray-800 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5">
+                <h2 id="summary-heading" class="text-lg font-medium text-gray-900 dark:text-white">Order Summary</h2>
+
+                <dl class="mt-6 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <dt class="text-sm text-gray-600 dark:text-gray-300">Subtotal</dt>
+                        <dd id="subtotal" class="text-sm font-medium text-gray-900 dark:text-white">$0.00</dd>
+                    </div>
+                    <div class="border-t border-gray-200 dark:border-gray-600 pt-4 flex items-center justify-between">
+                        <dt class="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                            <span>Shipping estimate</span>
+                        </dt>
+                        <dd id="shipping" class="text-sm font-medium text-gray-900 dark:text-white">$5.00</dd>
+                    </div>
+                    <div class="border-t border-gray-200 dark:border-gray-600 pt-4 flex items-center justify-between">
+                        <dt class="flex text-sm text-gray-600 dark:text-gray-300">
+                            <span>Tax estimate</span>
+                        </dt>
+                        <dd id="tax" class="text-sm font-medium text-gray-900 dark:text-white">$0.00</dd>
+                    </div>
+                    <div class="border-t border-gray-200 dark:border-gray-600 pt-4 flex items-center justify-between">
+                        <dt class="text-base font-medium text-gray-900 dark:text-white">Order total</dt>
+                        <dd id="total" class="text-base font-medium text-gray-900 dark:text-white">$0.00</dd>
+                    </div>
+                </dl>
+
+                <div class="mt-6">
+                    <button id="checkout-btn" class="w-full bg-primary border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled onclick="furuthStore.showPaymentModal()">
+                        Proceed to Payment
+                    </button>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">or</p>
+                    <a href="products.html" class="text-sm text-primary hover:underline font-medium">
+                        Continue Shopping
+                        <span aria-hidden="true"> &rarr;</span>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 dark:bg-gray-900 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4">Furuth</h3>
+                    <p class="text-gray-300 mb-4">Your trusted online shopping destination. Quality products, great prices, and excellent service.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="products.html" class="text-gray-300 hover:text-white transition-colors">Products</a></li>
+                        <li><a href="cart.html" class="text-gray-300 hover:text-white transition-colors">Cart</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <p class="text-gray-300">Email: info@furuth.com</p>
+                    <p class="text-gray-300">Phone: +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-300">&copy; 2025 Furuth. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 max-w-md shadow-lg rounded-md bg-white dark:bg-gray-800">
+            <div class="mt-3">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-600">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white">Choose Payment Method</h3>
+                    <button onclick="furuthStore.closePaymentModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <h4 class="font-medium text-gray-900 dark:text-white mb-2">Order Summary</h4>
+                    <div class="text-sm text-gray-600 dark:text-gray-300">
+                        <div class="flex justify-between">
+                            <span>Total Amount:</span>
+                            <span id="payment-total" class="font-medium">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="mt-4">
+                    <h4 class="font-medium text-gray-900 dark:text-white mb-3">Select Payment Method</h4>
+                    <div class="space-y-3">
+                        <!-- bKash -->
+                        <label class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <input type="radio" name="payment-method" value="bkash" class="w-4 h-4 text-primary focus:ring-primary border-gray-300">
+                            <div class="ml-3 flex items-center">
+                                <div class="w-8 h-8 bg-pink-500 rounded flex items-center justify-center text-white font-bold text-sm">bK</div>
+                                <div class="ml-3">
+                                    <div class="font-medium text-gray-900 dark:text-white">bKash</div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">Mobile Payment</div>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Nagad -->
+                        <label class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <input type="radio" name="payment-method" value="nagad" class="w-4 h-4 text-primary focus:ring-primary border-gray-300">
+                            <div class="ml-3 flex items-center">
+                                <div class="w-8 h-8 bg-orange-500 rounded flex items-center justify-center text-white font-bold text-sm">N</div>
+                                <div class="ml-3">
+                                    <div class="font-medium text-gray-900 dark:text-white">Nagad</div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">Mobile Payment</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Payment Instructions -->
+                <div id="payment-instructions" class="mt-4 hidden">
+                    <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
+                        <h5 class="font-medium text-blue-900 dark:text-blue-200 mb-2">Payment Instructions</h5>
+                        <div class="text-sm text-blue-800 dark:text-blue-300 space-y-1">
+                            <p>1. Open your <span id="selected-method"></span> app</p>
+                            <p>2. Select "Send Money"</p>
+                            <p>3. Enter number: <strong>01234567890</strong></p>
+                            <p>4. Enter amount: <strong id="payment-amount">$0.00</strong></p>
+                            <p>5. Complete the payment</p>
+                            <p>6. Enter the transaction ID below</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction ID Input -->
+                <div id="transaction-section" class="mt-4 hidden">
+                    <label for="transaction-id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Enter Transaction ID <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="transaction-id" placeholder="e.g. TXN123456789" 
+                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Enter the transaction ID you received after sending money</p>
+                </div>
+
+                <!-- Customer Info -->
+                <div class="mt-4">
+                    <h5 class="font-medium text-gray-900 dark:text-white mb-3">Customer Information</h5>
+                    <div class="space-y-3">
+                        <div>
+                            <label for="customer-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Full Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="customer-name" required
+                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+                        </div>
+                        <div>
+                            <label for="customer-phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Phone Number <span class="text-red-500">*</span>
+                            </label>
+                            <input type="tel" id="customer-phone" required
+                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+                        </div>
+                        <div>
+                            <label for="customer-address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Delivery Address <span class="text-red-500">*</span>
+                            </label>
+                            <textarea id="customer-address" rows="3" required
+                                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-6 flex space-x-3">
+                    <button onclick="furuthStore.closePaymentModal()" 
+                            class="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors">
+                        Cancel
+                    </button>
+                    <button id="confirm-payment-btn" onclick="furuthStore.confirmPayment()" disabled
+                            class="flex-1 px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        Confirm Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Furuth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Navigation Bar -->
+    <nav class="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold text-primary">Furuth</a>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="products.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Products</a>
+                        <a href="cart.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Cart (<span id="cart-count">0</span>)</a>
+                        <a href="orders.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">My Orders</a>
+                        <a href="admin.html" class="text-gray-500 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Admin</a>
+                    </div>
+                </div>
+
+                <!-- Currency Toggle -->
+                <button id="currency-toggle" class="px-3 py-1.5 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border border-gray-300 dark:border-gray-600">
+                    <span id="current-currency">USD</span>
+                </button>
+
+                <!-- Dark Mode Toggle -->
+                <button id="theme-toggle" class="p-2 rounded-md text-gray-500 hover:text-primary transition-colors">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path class="dark:hidden" fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        <path class="hidden dark:block" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                </button>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-500 hover:text-primary p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-500 dark:text-gray-300 hover:text-primary">Home</a>
+                <a href="products.html" class="block px-3 py-2 text-gray-500 dark:text-gray-300 hover:text-primary">Products</a>
+                <a href="cart.html" class="block px-3 py-2 text-gray-500 dark:text-gray-300 hover:text-primary">Cart (<span class="cart-count">0</span>)</a>
+                <a href="admin.html" class="block px-3 py-2 text-gray-500 dark:text-gray-300 hover:text-primary">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <ol class="flex items-center space-x-2 text-sm">
+                <li><a href="index.html" class="text-gray-500 hover:text-primary transition-colors">Home</a></li>
+                <li class="text-gray-400">/</li>
+                <li><a href="products.html" class="text-gray-500 hover:text-primary transition-colors">Products</a></li>
+                <li class="text-gray-400">/</li>
+                <li id="product-breadcrumb" class="text-gray-900 dark:text-white">Product Details</li>
+            </ol>
+        </div>
+    </nav>
+
+    <!-- Product Details -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Loading State -->
+        <div id="loading-state" class="text-center py-16">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p class="mt-4 text-gray-500 dark:text-gray-400">Loading product details...</p>
+        </div>
+
+        <!-- Product Not Found -->
+        <div id="not-found" class="text-center py-16 hidden">
+            <div class="text-gray-400 mb-4">
+                <svg class="w-24 h-24 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.329-1.002-5.75-2.709M15 3.5V2.25A2.25 2.25 0 0012.75 0h-2.5A2.25 2.25 0 008 2.25V3.5m-.879 4.25c.654-.689 1.782-.886 3.108-.886 1.326 0 2.454.197 3.108.886M15 7.5V9.25A2.25 2.25 0 0112.75 11.5h-2.5A2.25 2.25 0 018 9.25V7.5"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Product not found</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">The product you're looking for doesn't exist or has been removed.</p>
+            <a href="products.html" class="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
+                Browse Products
+            </a>
+        </div>
+
+        <!-- Product Content -->
+        <div id="product-content" class="hidden">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
+                <!-- Product Image -->
+                <div class="flex flex-col-reverse">
+                    <div class="aspect-w-1 aspect-h-1 w-full">
+                        <img id="product-image" src="" alt="" class="w-full h-96 lg:h-[500px] object-cover object-center rounded-lg shadow-lg">
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
+                    <h1 id="product-title" class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white"></h1>
+
+                    <div class="mt-3">
+                        <h2 class="sr-only">Product information</h2>
+                        <p id="product-price" class="text-3xl text-gray-900 dark:text-white font-bold"></p>
+                    </div>
+
+                    <!-- Product Description -->
+                    <div class="mt-6">
+                        <h3 class="sr-only">Description</h3>
+                        <div id="product-description" class="text-base text-gray-700 dark:text-gray-300 space-y-6">
+                            <!-- Description will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Add to Cart -->
+                    <div class="mt-10 flex flex-col sm:flex-row sm:items-center">
+                        <div class="flex items-center space-x-4 mb-4 sm:mb-0">
+                            <label for="quantity" class="text-sm font-medium text-gray-700 dark:text-gray-300">Quantity:</label>
+                            <select id="quantity" class="max-w-full rounded-md border border-gray-300 py-1.5 px-3 text-base leading-5 font-medium text-gray-700 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+
+                        <button id="add-to-cart-btn" type="button" class="w-full sm:w-auto sm:ml-6 bg-primary border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13v6a2 2 0 002 2h8a2 2 0 002-2v-6"></path>
+                            </svg>
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <!-- Success Message -->
+                    <div id="add-to-cart-success" class="hidden mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            Product added to cart successfully!
+                        </div>
+                    </div>
+
+                    <!-- Continue Shopping -->
+                    <div class="mt-6 text-center">
+                        <a href="products.html" class="text-sm text-primary hover:underline font-medium">
+                            ← Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products Section -->
+    <section id="related-products" class="py-16 hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">You might also like</h2>
+            <div id="related-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Related products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 dark:bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4">Furuth</h3>
+                    <p class="text-gray-300 mb-4">Your trusted online shopping destination. Quality products, great prices, and excellent service.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="products.html" class="text-gray-300 hover:text-white transition-colors">Products</a></li>
+                        <li><a href="cart.html" class="text-gray-300 hover:text-white transition-colors">Cart</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <p class="text-gray-300">Email: info@furuth.com</p>
+                    <p class="text-gray-300">Phone: +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-300">&copy; 2025 Furuth. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
