@@ -4,6 +4,7 @@
 class FuruthStore {
     constructor() {
         this.products = this.getProducts();
+        this.migrateProductsWithCategories(); // Ensure existing products have categories
         this.cart = this.getCart();
         this.filteredProducts = [...this.products];
         this.currentSort = 'name-asc';
@@ -1276,6 +1277,31 @@ class FuruthStore {
 
         this.saveProducts(sampleProducts);
         localStorage.setItem('furuth_initialized', 'true');
+    }
+
+    migrateProductsWithCategories() {
+        let needsUpdate = false;
+        
+        this.products.forEach(product => {
+            if (!product.category) {
+                // Assign default category based on product name or set as 'men'
+                const name = (product.name || '').toLowerCase();
+                if (name.includes('women') || name.includes('lady') || name.includes('girl') || name.includes('dress') || name.includes('blouse')) {
+                    product.category = 'women';
+                } else if (name.includes('kid') || name.includes('child') || name.includes('baby') || name.includes('toy') || name.includes('backpack')) {
+                    product.category = 'kids';
+                } else {
+                    product.category = 'men'; // Default to men's category
+                }
+                needsUpdate = true;
+            }
+        });
+        
+        if (needsUpdate) {
+            this.saveProducts(this.products);
+            this.filteredProducts = [...this.products];
+            console.log('Products migrated with categories');
+        }
     }
 }
 

@@ -9,6 +9,9 @@ class FuruthAdmin {
         // Check if products might have been lost
         this.checkForDataLoss();
         
+        // Add categories to existing products that don't have them
+        this.migrateProductsWithCategories();
+        
         this.init();
     }
 
@@ -222,6 +225,7 @@ class FuruthAdmin {
             price: parseFloat(productData.price),
             image: imagePath,
             description: productData.description.trim(),
+            category: productData.category || 'men', // Add category field with default
             dateAdded: new Date().toISOString()
         };
 
@@ -1041,6 +1045,30 @@ class FuruthAdmin {
             case 'women': return 'Women';  
             case 'kids': return 'Kids';
             default: return 'General';
+        }
+    }
+
+    migrateProductsWithCategories() {
+        let needsUpdate = false;
+        
+        this.products.forEach(product => {
+            if (!product.category) {
+                // Assign default category based on product name or set as 'men'
+                const name = (product.name || '').toLowerCase();
+                if (name.includes('women') || name.includes('lady') || name.includes('girl') || name.includes('dress') || name.includes('blouse')) {
+                    product.category = 'women';
+                } else if (name.includes('kid') || name.includes('child') || name.includes('baby') || name.includes('toy') || name.includes('backpack')) {
+                    product.category = 'kids';
+                } else {
+                    product.category = 'men'; // Default to men's category
+                }
+                needsUpdate = true;
+            }
+        });
+        
+        if (needsUpdate) {
+            this.saveProducts(this.products);
+            console.log('Products migrated with categories');
         }
     }
 }
