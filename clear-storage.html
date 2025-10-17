@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Storage - Furuth</title>
+</head>
+<body>
+    <div style="padding: 20px; text-align: center;">
+        <h1>Clear Storage and Reinitialize</h1>
+        <button onclick="clearAndInit()" style="padding: 10px 20px; font-size: 16px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">Clear Storage & Reload</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        function clearAndInit() {
+            // Clear all localStorage
+            localStorage.removeItem('furuth_products');
+            localStorage.removeItem('furuth_cart');
+            localStorage.removeItem('furuth_orders');
+            
+            document.getElementById('status').innerHTML = 'Storage cleared! Redirecting to products page...';
+            
+            setTimeout(() => {
+                window.location.href = 'products.html';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

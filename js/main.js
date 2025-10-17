@@ -80,14 +80,12 @@ class FuruthStore {
     // LocalStorage Methods
     getProducts() {
         // Use integrity verification
-        const products = this.verifyProductsIntegrity();
+        let products = this.verifyProductsIntegrity();
         
-        // If no products and not initialized, mark as initialized
-        if (products.length === 0) {
-            const hasInitialized = localStorage.getItem('furuth_initialized');
-            if (!hasInitialized) {
-                localStorage.setItem('furuth_initialized', 'true');
-            }
+        // If no products or old products without categories, initialize with sample products
+        if (products.length === 0 || !products[0].category) {
+            this.initializeSampleProductsToStorage();
+            products = this.verifyProductsIntegrity();
         }
         
         return products;
@@ -275,6 +273,11 @@ class FuruthStore {
         const noResults = document.getElementById('no-results');
 
         if (!container) return;
+
+        // Initialize sample products if none exist
+        if (this.products.length === 0) {
+            this.initializeSampleProducts();
+        }
 
         // Hide loading state
         if (loadingState) loadingState.classList.add('hidden');
@@ -1148,6 +1151,131 @@ class FuruthStore {
             case 'kids': return 'Kids';
             default: return 'General';
         }
+    }
+
+    initializeSampleProducts() {
+        const sampleProducts = [
+            {
+                id: 'sample-' + Date.now() + '-1',
+                name: 'Men\'s Classic T-Shirt',
+                price: 29.99,
+                image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop',
+                description: 'Comfortable cotton t-shirt perfect for everyday wear.',
+                category: 'men',
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 'sample-' + Date.now() + '-2',
+                name: 'Women\'s Summer Dress',
+                price: 49.99,
+                image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&h=300&fit=crop',
+                description: 'Elegant summer dress made from lightweight fabric.',
+                category: 'women',
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 'sample-' + Date.now() + '-3',
+                name: 'Kids Colorful Sneakers',
+                price: 35.99,
+                image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=300&h=300&fit=crop',
+                description: 'Fun and comfortable sneakers for active kids.',
+                category: 'kids',
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 'sample-' + Date.now() + '-4',
+                name: 'Men\'s Casual Jeans',
+                price: 79.99,
+                image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=300&h=300&fit=crop',
+                description: 'Premium denim jeans with perfect fit.',
+                category: 'men',
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 'sample-' + Date.now() + '-5',
+                name: 'Women\'s Elegant Blouse',
+                price: 55.99,
+                image: 'https://images.unsplash.com/photo-1564557287817-3785e38ec2d5?w=300&h=300&fit=crop',
+                description: 'Stylish blouse for professional occasions.',
+                category: 'women',
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 'sample-' + Date.now() + '-6',
+                name: 'Kids Rainbow Backpack',
+                price: 25.99,
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop',
+                description: 'Colorful and durable backpack for school.',
+                category: 'kids',
+                dateAdded: new Date().toISOString()
+            }
+        ];
+
+        this.saveProducts(sampleProducts);
+        this.products = sampleProducts;
+        this.filteredProducts = [...sampleProducts];
+    }
+
+    initializeSampleProductsToStorage() {
+        const sampleProducts = [
+            {
+                id: 'sample-' + Date.now() + '-1',
+                name: 'Men\'s Classic T-Shirt',
+                price: 29.99,
+                image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop',
+                description: 'Comfortable cotton t-shirt perfect for everyday wear.',
+                category: 'men',
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 'sample-' + Date.now() + '-2',
+                name: 'Women\'s Summer Dress',
+                price: 49.99,
+                image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&h=300&fit=crop',
+                description: 'Elegant summer dress made from lightweight fabric.',
+                category: 'women',
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 'sample-' + Date.now() + '-3',
+                name: 'Kids Colorful Sneakers',
+                price: 35.99,
+                image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=300&h=300&fit=crop',
+                description: 'Fun and comfortable sneakers for active kids.',
+                category: 'kids',
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 'sample-' + Date.now() + '-4',
+                name: 'Men\'s Casual Jeans',
+                price: 79.99,
+                image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=300&h=300&fit=crop',
+                description: 'Premium denim jeans with perfect fit.',
+                category: 'men',
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 'sample-' + Date.now() + '-5',
+                name: 'Women\'s Elegant Blouse',
+                price: 55.99,
+                image: 'https://images.unsplash.com/photo-1564557287817-3785e38ec2d5?w=300&h=300&fit=crop',
+                description: 'Stylish blouse for professional occasions.',
+                category: 'women',
+                dateAdded: new Date().toISOString()
+            },
+            {
+                id: 'sample-' + Date.now() + '-6',
+                name: 'Kids Rainbow Backpack',
+                price: 25.99,
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop',
+                description: 'Colorful and durable backpack for school.',
+                category: 'kids',
+                dateAdded: new Date().toISOString()
+            }
+        ];
+
+        this.saveProducts(sampleProducts);
+        localStorage.setItem('furuth_initialized', 'true');
     }
 }
 

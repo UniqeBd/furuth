@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Categories - Furuth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8">Category Debug</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-semibold mb-4">Current Products in Storage</h2>
+                <pre id="products-data" class="bg-gray-100 p-4 rounded text-sm overflow-auto"></pre>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-semibold mb-4">Category Filter Test</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Select Category:</label>
+                        <select id="debug-category" class="border rounded px-3 py-2 w-full">
+                            <option value="all">All Categories</option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="kids">Kids</option>
+                        </select>
+                    </div>
+                    <div>
+                        <h3 class="font-medium">Filtered Results:</h3>
+                        <div id="filtered-results" class="bg-gray-100 p-4 rounded text-sm"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-8 bg-white p-6 rounded-lg shadow">
+            <h2 class="text-xl font-semibold mb-4">Add Sample Product with Category</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onclick="addSampleProduct('men')" class="bg-blue-500 text-white px-4 py-2 rounded">Add Men's Product</button>
+                <button onclick="addSampleProduct('women')" class="bg-pink-500 text-white px-4 py-2 rounded">Add Women's Product</button>
+                <button onclick="addSampleProduct('kids')" class="bg-green-500 text-white px-4 py-2 rounded">Add Kids Product</button>
+                <button onclick="clearStorage()" class="bg-red-500 text-white px-4 py-2 rounded">Clear Storage</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        let debugStore;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            debugStore = new FuruthStore();
+            updateDisplay();
+            
+            document.getElementById('debug-category').addEventListener('change', (e) => {
+                filterAndShow(e.target.value);
+            });
+        });
+        
+        function updateDisplay() {
+            const products = JSON.parse(localStorage.getItem('furuth_products') || '[]');
+            document.getElementById('products-data').textContent = JSON.stringify(products, null, 2);
+            filterAndShow('all');
+        }
+        
+        function filterAndShow(category) {
+            const products = JSON.parse(localStorage.getItem('furuth_products') || '[]');
+            let filtered;
+            
+            if (category === 'all') {
+                filtered = products;
+            } else {
+                filtered = products.filter(p => p.category === category);
+            }
+            
+            const resultText = filtered.length > 0 ? 
+                filtered.map(p => `${p.name} (${p.category || 'no category'})`).join('\n') :
+                'No products found for this category';
+                
+            document.getElementById('filtered-results').textContent = resultText;
+        }
+        
+        function addSampleProduct(category) {
+            const products = JSON.parse(localStorage.getItem('furuth_products') || '[]');
+            
+            const sampleProducts = {
+                men: { name: 'Men\'s Test Shirt', price: 25.99, category: 'men', description: 'Test product for men' },
+                women: { name: 'Women\'s Test Dress', price: 45.99, category: 'women', description: 'Test product for women' },
+                kids: { name: 'Kids Test Toy', price: 15.99, category: 'kids', description: 'Test product for kids' }
+            };
+            
+            const newProduct = {
+                id: Date.now().toString(),
+                image: 'https://via.placeholder.com/300x300',
+                dateAdded: new Date().toISOString(),
+                ...sampleProducts[category]
+            };
+            
+            products.push(newProduct);
+            localStorage.setItem('furuth_products', JSON.stringify(products));
+            updateDisplay();
+            alert(`Added ${category} product!`);
+        }
+        
+        function clearStorage() {
+            localStorage.removeItem('furuth_products');
+            updateDisplay();
+            alert('Storage cleared!');
+        }
+    </script>
+</body>
+</html>
